@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 輸出log4j2 相關 log 層級 -->
+<Configuration status="INFO" strict="true" name="XMLConfig">
+
+<!--    <Properties>-->
+<!--        <Property name="filename">target/test.log</Property>-->
+<!--    </Properties>-->
+<!--    <Filter type="ThresholdFilter" level="trace"/>-->
+
+    <Appenders>
+        <!-- 輸出 log 格式 -->
+        <Appender type="Console" name="STDOUT">
+            <Layout type="PatternLayout" pattern="%d %p [%c] (%F:%L) :: %m%n"/>
+        </Appender>
+
+<!--        <Appender type="File" name="File" fileName="${filename}">-->
+<!--            <Layout type="PatternLayout">-->
+<!--                <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>-->
+<!--            </Layout>-->
+<!--        </Appender>-->
+
+        <!-- 幾時 或 超過上限 時 輸出log 格式  -->
+        <!-- 詳情: https://www.cnblogs.com/yeyang/p/7944899.html -->
+        <!-- 詳情: https://blog.csdn.net/zhang168/article/details/46814489 -->
+        <RollingFile name="RollingFile" fileName="logs/app.log"
+                     filePattern="logs/app-%d{yyyy-MM-dd}.log">
+            <PatternLayout>
+                <Pattern>[%-5p] %d{yyyy-MM-dd HH:mm:ss,SSS} (%F:%L) - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+    </Appenders>
+
+
+    <Loggers>
+<!--        <Logger name="org.apache.logging.log4j.test1" level="debug" additivity="false">-->
+<!--            <Filter type="ThreadContextMapFilter">-->
+<!--                <KeyValuePair key="test" value="123"/>-->
+<!--            </Filter>-->
+<!--            <AppenderRef ref="STDOUT"/>-->
+<!--        </Logger>-->
+
+            <!-- 限制特定class 底下 輸出log 層級-->
+<!--        <Logger name="org.apache.logging.log4j.test2" level="debug" additivity="false">-->
+<!--            <AppenderRef ref="File"/>-->
+<!--        </Logger>-->
+
+<!--            <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR" additivity="true">-->
+<!--                <AppenderRef ref="STDOUT" />-->
+<!--            </Logger>-->
+
+        <!-- root 輸出 log 層級 -->
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>

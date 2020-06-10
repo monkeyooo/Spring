@@ -1,0 +1,130 @@
+plugins {
+    id 'java'
+    id 'war'
+    id 'org.gretty' version '3.0.1'
+}
+
+group 'demo'
+//version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+gretty {
+    /**
+     * (1)Regarding details of "Gretty plugin" please refer To the official document site as :
+     *    http://akhikhl.github.io/gretty-doc/index.html
+     *
+     * (2)We conduct the the "Greety plugin" as development phase debuging servlet by its embedded servlet container,
+     *    for supported servletContainer by Greety please refer To:
+     *    http://akhikhl.github.io/gretty-doc/Switching-between-servlet-containers.html
+     *
+     * (3)The supported values of servletContainer including:
+     *    'jetty7', 'jetty8', 'jetty9', 'jetty93', 'jetty94', 'tomcat7', 'tomcat8'
+     *    In our case,
+     *    'tomcat8'(Tomcat 8.0.44)
+     *    8080(TCP Listening PORT )
+     */
+    //host = "192.168.0.57"
+    servletContainer = 'tomcat9'
+    contextPath = "/${rootProject.name}"
+
+    //httpPort = 8080
+//    httpsPort = 8080
+//    httpEnabled = false
+//    httpsEnabled = true
+//    sslKeyStorePath = "src/main/resources/keystore.p12"
+//    sslKeyStorePassword = '123456'
+//    serverConfigFile = 'src/main/resources/server.xml'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile "javax.websocket:javax.websocket-api:1.1"
+
+    compile "javax.servlet:jstl:1.2"
+
+    compile "antlr:antlr:2.7.7"
+
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+    //**********        jdk8 以上配置      *************
+
+    //commons
+    compile "commons-codec:commons-codec:1.14"
+    compile "commons-dbcp:commons-dbcp:1.4"
+    compile "commons-discovery:commons-discovery:0.5"
+    compile "commons-fileupload:commons-fileupload:1.4"
+    compile "commons-io:commons-io:2.6"
+    compile "org.apache.commons:commons-lang3:3.9"
+    compile "commons-logging:commons-logging:1.2"
+
+
+
+    compile group: 'org.codehaus.groovy', name: 'groovy', version: '3.0.0-rc-2'
+
+    //log4j2 需配置log4j2.xml 否則只會輸出  ERROR 、 FATAL 詳情:https://blog.csdn.net/autfish/article/details/51203709
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.0'
+
+
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+
+
+    compile "org.json:json:20190722"
+    compile "com.fasterxml.jackson.core:jackson-annotations:2.10.1"
+    compile "com.fasterxml.jackson.core:jackson-core:2.10.1"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.1"
+
+    providedCompile group: 'javax', name: 'javaee-api', version: '8.0.1'
+
+    //hibernate
+    compile "org.hibernate:hibernate-c3p0:5.4.10.Final"
+    compile "org.hibernate:hibernate-core:5.4.10.Final"
+    compile "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final"
+    compile "org.hibernate.common:hibernate-commons-annotations:5.1.0.Final"
+    compile "org.hibernate:hibernate-osgi:5.4.10.Final"
+    compile "org.hibernate:hibernate-validator:6.1.0.Final"
+
+
+    //mysql
+    compile "mysql:mysql-connector-java:8.0.19"
+
+    //oracle
+    compile group: 'com.oracle', name: 'ojdbc6', version: '11.2.0.4.0-atlassian-hosted'
+
+
+
+    //spring
+    //spring 5.1以上 原本 INFO Mapped 變成 TRACE Mapped
+    compile "org.springframework:spring-aspects:5.0.15.RELEASE"
+    compile "org.springframework:spring-context-support:5.0.15.RELEASE"
+    compile "org.springframework:spring-instrument:5.0.15.RELEASE"
+    compile "org.springframework:spring-instrument-tomcat:4.3.25.RELEASE"
+    compile "org.springframework:spring-jms:5.0.15.RELEASE"
+    compile "org.springframework:spring-jdbc:5.0.15.RELEASE"
+    compile "org.springframework:spring-messaging:5.0.15.RELEASE"
+    compile "org.springframework:spring-orm:5.0.15.RELEASE"
+    compile "org.springframework:spring-oxm:5.0.15.RELEASE"
+    compile "org.springframework:spring-test:5.0.15.RELEASE"
+    compile "org.springframework:spring-tx:5.0.15.RELEASE"
+    compile "org.springframework:spring-webmvc:5.0.15.RELEASE"
+    compile "org.springframework:spring-websocket:5.0.15.RELEASE"
+    compile "org.springframework:spring-webmvc-portlet:4.3.25.RELEASE"
+    compile "org.springframework:spring-aop:5.0.15.RELEASE"
+
+
+    //**********        jdk8 以上配置      *************
+
+    // BCrypt
+    compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+
+    // countries i18n
+    compile group: 'com.neovisionaries', name: 'nv-i18n', version: '1.27'
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
