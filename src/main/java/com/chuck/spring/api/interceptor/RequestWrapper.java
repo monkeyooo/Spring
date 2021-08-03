@@ -1,4 +1,4 @@
-package com.interceptor;
+package com.chuck.spring.api.interceptor;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -9,6 +9,8 @@ import java.io.*;
 public class RequestWrapper extends HttpServletRequestWrapper {
     private String body;
 
+    private ByteArrayOutputStream byteArrayOutputStream;
+
     public RequestWrapper(HttpServletRequest request) {
         super(request);
         StringBuilder stringBuilder = new StringBuilder();
@@ -16,8 +18,10 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         InputStream inputStream = null;
         try {
             inputStream = request.getInputStream();
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            inputStream.transferTo(byteArrayOutputStream);
             if (inputStream != null) {
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                bufferedReader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())));
                 char[] charBuffer = new char[128];
                 int bytesRead = -1;
                 while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
@@ -45,13 +49,20 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                     e.printStackTrace();
                 }
             }
+            if (byteArrayOutputStream != null){
+                try {
+                    byteArrayOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         body = stringBuilder.toString();
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body.getBytes());
+        final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
         ServletInputStream servletInputStream = new ServletInputStream() {
             @Override
             public boolean isFinished() {

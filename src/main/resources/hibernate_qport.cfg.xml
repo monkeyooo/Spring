@@ -15,11 +15,11 @@
         <!-- JDBC驅動程式 -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <!-- JDBC URL -->
-        <property name="connection.url">jdbc:mysql://localhost:3306/useUnicode=true&amp;characterEncoding=utf8&amp;</property>
+        <property name="connection.url">jdbc:mysql://{your db host}:3306/useUnicode=true&amp;characterEncoding=utf8&amp;</property>
         <!-- 資料庫使用者 -->
-        <property name="connection.username">root</property>
+        <property name="connection.username">your db user name</property>
         <!-- 資料庫密碼 -->
-        <property name="connection.password">syy094315</property>
+        <property name="connection.password">your db password</property>
         <!-- 時區 -->
         <property name="hibernate.jdbc.time_zone">GMT+8</property>
 
@@ -36,12 +36,6 @@
 
 <!--        &lt;!&ndash; 物件與資料庫表格映射文件 &ndash;&gt;-->
 <!--        <mapping resource="onlyfun/caterpillar/User.hbm.xml"/>-->
-
-
-
-        <mapping class="com.beans.User"/>
-
-
 
     </session-factory>
 

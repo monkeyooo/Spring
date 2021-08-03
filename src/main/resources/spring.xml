@@ -20,32 +20,35 @@
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-
-    <!--//scan package-->
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
 
     <!-- spring 管轄package -->
     <context:component-scan base-package="com"/>
-    <!--回傳型態為html需加上這段避免404 詳情： http://www.voidcn.com/article/p-wijsclrd-bpr.html -->
-    <mvc:resources mapping="/**/*.html" location="/"/>
+    <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/" />
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
+
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/login"/>
-            <mvc:exclude-mapping path="/sign_up"/>
-            <mvc:exclude-mapping path="/createuser"/>
-            <mvc:exclude-mapping path="/verificationMailbox"/>
-            <mvc:exclude-mapping path="/verificationUser"/>
-            <mvc:exclude-mapping path="/test"/>
-            <bean class="com.interceptor.Interceptor"/>
+            <!-- for swagger -->
+            <mvc:exclude-mapping path="/swagger-ui.html"/>
+            <mvc:exclude-mapping path="/swagger*/**"/>
+            <mvc:exclude-mapping path="/swagger-resources/**"/>
+            <mvc:exclude-mapping path="/v2/**"/>
+            <mvc:exclude-mapping path="/webjars/**"/>
+            <mvc:exclude-mapping path="/api/v2/**"/>
+            <mvc:exclude-mapping path="/csrf"/>
+            <bean class="com.chuck.spring.api.interceptor.Interceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
-    <bean name="basicInterceptor" class="com.interceptor.BasicInterceptor" abstract="true"></bean>
+    <bean name="basicInterceptor" class="com.chuck.spring.api.interceptor.BasicInterceptor" abstract="true"/>
 
     <!-- 設定spring orm 並載入 hibernate_qport.cfg.xml -->
-    <bean id="qportSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-        <property name="configLocation">
-            <value>classpath:hibernate_qport.cfg.xml</value>
-        </property>
+    <bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="configLocation" value="classpath:hibernate_qport.cfg.xml"/>
     </bean>
 </beans>
 

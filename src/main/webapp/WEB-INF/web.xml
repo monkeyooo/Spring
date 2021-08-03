@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="4.0" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
-   http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+        http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
 
-    <display-name>測試專案</display-name>
+    <display-name>API</display-name>
     <filter>
-        <filter-name>customFilter</filter-name>
-        <filter-class>com.interceptor.CustomFilter</filter-class>
+        <filter-name>Filter</filter-name>
+        <filter-class>com.chuck.spring.api.interceptor.ServletFilterImpl</filter-class>
+        <async-supported>true</async-supported>
     </filter>
     <filter-mapping>
-        <filter-name>customFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>Filter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ASYNC</dispatcher>
     </filter-mapping>
-
-
     <!-- Context Param -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -23,23 +25,13 @@
         </param-value>
     </context-param>
 
-    <!-- Listener -->
+
+
+<!--     Listener -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    <!-- Filter -->
-
-    <!-- 將http 轉導 至 https -->
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AuthServer</web-resource-name>
-            <url-pattern>/</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
+<!--     Filter -->
 
     <!-- SPRING MVC CONFIGURATION AND SPRING XML -->
     <servlet>
@@ -47,13 +39,13 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/spring.xml</param-value>
+            <param-value>classpath:spring.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-
 </web-app>

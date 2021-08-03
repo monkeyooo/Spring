@@ -1,5 +1,10 @@
 # Spring
-Web+Filter+Hibernate
+It's a simple spring web application
+
+Filter, Hibernate, Swagger, DeferredResult(Non-block)
 
 #2020-06-10
-Push basic project structure
+Initial commit
+
+#2021-08-03
+Basic project update
